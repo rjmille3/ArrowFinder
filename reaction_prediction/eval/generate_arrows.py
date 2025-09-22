@@ -53,9 +53,6 @@ def parse_args():
     p.add_argument("--sink_model",   required=True, help="Path to sink atom model (.h5)")
     p.add_argument("--ranker_model", required=True, help="Path to Siamese/Ranker model (.h5)")
 
-    # Ranker inner submodel selection
-    p.add_argument("--ranker_inner_name", default="shared_network",
-                   help="Layer name of the shared/inner ranker inside the Siamese model (default: shared_network)")
     p.add_argument("--ranker_inner_index", type=int, default=2,
                    help="Fallback layer index if name not found (default: 2)")
 
@@ -138,21 +135,9 @@ def pick_topk_indices(scores: np.ndarray, k: int) -> list:
     idx = idx[np.argsort(scores[idx])[::-1]]  # sort those top-k indices by score desc
     return idx.tolist()
 
-def get_atoms_list(reactants: str):
-    """
-    SAO.atomObjFromReactantSmi may return a list, an iterator, or a dict (values view).
-    Normalize to a plain list of atom objects with a stable order so indices match.
-    """
-    atoms_any = SAO.atomObjFromReactantSmi(reactants)
-    if isinstance(atoms_any, (list, tuple)):
-        return list(atoms_any)
-    if isinstance(atoms_any, dict):
-        return list(atoms_any.values())
-    try:
-        return list(atoms_any)
-    except TypeError:
-        raise ValueError(f"Unexpected atoms container type: {type(atoms_any)}")
 
+def get_atoms_list(reactants: str):
+    return list(SAO.atomObjFromReactantSmi(reactants))
 
 # ---------------------------
 # Ranker helpers (main process only)
