@@ -120,3 +120,18 @@ Run ArrowFinder predictions with:
 ```bash
 shell_scripts/eval/run_arrowfinder_prediction.sh
 ```
+
+The script reports five categories of recovery:
+
+- **recovered_both** – cases where both the products and arrows are recovered.
+- **recovered_products** – cases where only the products are recovered, but the arrows differ.
+- **recovered_arrows** – cases where only the arrow codes are recovered, but the products differ.
+- **not_recovered** – cases where no mechanism was found.
+- **error** – cases where the reactants could not be processed.
+  
+
+From our analysis on the mixed fold0 predictions, we found that in all cases where products were recovered, the predicted arrows (even if they did not exactly match the ground-truth arrows) were still correct.  
+
+Therefore, we define the **true accuracy** as:
+
+`true_accuracy = (recovered_both + recovered_products) / total_reactions`
