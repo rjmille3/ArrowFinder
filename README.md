@@ -132,6 +132,6 @@ The script reports five categories of recovery:
 
 From our analysis on the mixed fold0 predictions, we found that in all cases where products were recovered, the predicted arrows (even if they did not exactly match the ground-truth arrows) were still correct.  
 
-Therefore, we define the **true accuracy** as:
+Therefore, we define the **accuracy** as:
 
-`true_accuracy = (recovered_both + recovered_products) / total_reactions`
+`accuracy = (recovered_both + recovered_products) / total_reactions`
